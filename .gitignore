@@ -1,0 +1,2 @@
+# Exclude KiCad's internal local history backups
+**/.history/
