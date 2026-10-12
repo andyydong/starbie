@@ -1,7 +1,7 @@
 # STARBIE PROJECT
 
 ## What is this project?
-This is my version of a Starbie by SharKingStudios: https://github.com/SharKingStudios/Starbie
+This is my version of a Starbie by SharKingStudios: https://github.com/SharKingStudios/Starbie\
 Starbie is essentially a mini companion. The companion character lives on the display. It's able
 to move around and such. It can react to the environment using data collected from its built-in
 IMU and DHT sensors. This gives it a dynamic range of reactions.
@@ -15,8 +15,6 @@ a project.
 The DHT11 and MPU6050 collect temperature and accelerometer data, respectively; the data gets graphed on the serial plotter. This data is sent to the ESP32-C3, which parses the data. This is then used to control the menu and determine the character state. Although capable of doing so, gyroscopic data is not recorded or used. The character and menu are drawn on the OLED screen and can be controlled using tilting.
 
 ### The Character
-It is supposed to be a snow leopard, but it doesn't look like one :(
-
-Here is what it looks like:
-
+It is supposed to be a snow leopard, but it doesn't look like one :(\
+Here is what it looks like:\
 <img width="128" height="128" alt="Character" src="https://github.com/user-attachments/assets/1fb41036-d2d5-4199-9115-c43df14fd88d" />
