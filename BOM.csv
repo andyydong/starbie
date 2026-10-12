@@ -1,4 +1,4 @@
-Item, amount, cost (ea.), Link
+Item, amount, cost, Link
 XIAO ESP32 C3, 1, 4.99, https://www.seeedstudio.com/Seeed-XIAO-ESP32C3-p-5431.html 
 0.96 OLED, 1, 2.78, https://www.aliexpress.us/item/3256805954920554.html 
 MPU6050, 1, 2.43, https://www.aliexpress.us/item/3256810415729295.html
