@@ -32,11 +32,11 @@ Everything should be soldered onto the PCB. Some components, for example, the MP
 ## BOM
 See either BOM.md or BOM.csv
 Here is an overview of the parts:
-- XIAO ESP32 C3 \
-- 0.96 OLED \
-- MPU6050 \
-- DHT11 \
-- MX Switches \
-- MX Keycaps \
-- 10k Resistor \
-- PCB \
+- XIAO ESP32 C3
+- 0.96 OLED
+- MPU6050
+- DHT11
+- MX Switches
+- MX Keycaps
+- 10k Resistor
+- PCB
