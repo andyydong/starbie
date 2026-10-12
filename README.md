@@ -1,7 +1,7 @@
 # STARBIE PROJECT
 
 ## What is this project?
-This is my version of a Starbie by SharKingStudios: https://github.com/SharKingStudios/Starbie\
+This is my version of a Starbie by SharKingStudios: https://github.com/SharKingStudios/Starbie \
 Starbie is essentially a mini companion. The companion character lives on the display. It's able
 to move around and such. It can react to the environment using data collected from its built-in
 IMU and DHT sensors. This gives it a dynamic range of reactions.
