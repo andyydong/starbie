@@ -70,8 +70,8 @@ struct MenuItem {
 const MenuItem MENU_ITEMS[] = {
   {"NAP",   1,  18, -4, NAP_REACTION},   // top: sleep and emit Zs
   {"PLAY", 12, -9, -5, RUN_REACTION},    // right: two fast laps + hearts
-  {"FEED",  3,  2,  18, JUMP_REACTION},  // bottom: wiggle and jump
-  {"PET",   7,  0,  0, HEART_REACTION},  // left: jump and emit hearts
+  {"FEED",  3,  2,  18, HEART_REACTION},  // bottom: wiggle and jump
+  {"HOP",   7,  0,  0, JUMP_REACTION},  // left: jump and emit hearts
 };
 const int MENU_ITEM_COUNT = sizeof(MENU_ITEMS) / sizeof(MENU_ITEMS[0]);
 
@@ -116,7 +116,7 @@ const uint8_t PLAY_LAP_COUNT = 2;
 // Each byte stores eight pixels, left to right. This sparse outline keeps the
 // supplied creature readable on a tiny, one-bit OLED: head, eye, legs, tail,
 // and a small flower-like ear accent all stay separate instead of becoming a blob.
-const uint8_t PROGMEM PET_SPRITE[] = {
+/* const uint8_t PROGMEM PET_SPRITE[] = {
   0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00,
@@ -149,6 +149,17 @@ const uint8_t PROGMEM PET_SPRITE[] = {
   0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00,
+}; */
+
+const uint8_t PROGMEM PET_SPRITE[] = {
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0x0f, 0xf0, 0x00, 0x00, 0x1f, 0xf8, 0x00, 0x00, 0x26, 0xe4, 0x00, 0x00, 0x2f, 0xf4, 0x00, 0x00, 
+	0x39, 0x9c, 0x00, 0x00, 0x35, 0xb4, 0x00, 0x00, 0x3f, 0xfb, 0x00, 0x00, 0x1f, 0xb7, 0xc0, 0x00, 
+	0x00, 0x0f, 0xf0, 0x00, 0x03, 0xfd, 0x78, 0x00, 0x03, 0xbf, 0xec, 0x00, 0x01, 0xff, 0xbe, 0x00, 
+	0x03, 0xbf, 0xfe, 0x00, 0x01, 0xcd, 0xfa, 0x00, 0x03, 0x03, 0xf7, 0x00, 0x06, 0x03, 0x3f, 0xc0, 
+	0x00, 0x06, 0x6d, 0x60, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x20, 
+	0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00, 0x20, 0x00, 0x00, 0x37, 0xc0, 0x00, 0x00, 0x05, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 // ===========================================================================
 // You can read below without needing to understand every line. The rest of
@@ -273,6 +284,34 @@ bool wasPressed(ButtonState &button) {
   return false;
 }
 
+void calibrateMPU(){
+  const numOfSamples = 500;
+  float cumulativeAccelerationX = 0;
+  float cumulativeAccelerationY = 0;
+  float cumulativeAccelerationZ = 0;
+  float accelXOffset = 0;
+  float accelYOffset = 0;
+  float accelZOffset = 0;
+
+  if (!mpuFound || millis() - lastMpuReadAt < MPU_READ_INTERVAL_MS) {
+    return;
+  }
+  lastMpuReadAt = millis();
+
+  sensors_event_t acceleration;
+  sensors_event_t gyro;
+  sensors_event_t sensorTemperature;
+  for(int i = 0; i <= numOfSamples; i++){
+    mpu.getEvent(&acceleration, &gyro, &sensorTemperature);
+    cumulativeAccelerationX += acceleration.acceleration.x;
+    cumulativeAccelerationY += acceleration.acceleration.y;
+    cumulativeAccelerationZ += acceleration.acceleration.z;
+  }
+  accelXOffset = cumulativeAccelerationX / numOfSamples;
+  accelYOffset = cumulativeAccelerationY / numOfSamples;
+  accelZOffset = cumulativeAccelerationZ / numOfSamples;
+}
+
 void updateMpu() {
   if (!mpuFound || millis() - lastMpuReadAt < MPU_READ_INTERVAL_MS) {
     return;
@@ -283,9 +322,9 @@ void updateMpu() {
   sensors_event_t gyro;
   sensors_event_t sensorTemperature;
   mpu.getEvent(&acceleration, &gyro, &sensorTemperature);
-  accelerationX = acceleration.acceleration.x;
-  accelerationY = acceleration.acceleration.y;
-  accelerationZ = acceleration.acceleration.z;
+  accelerationX = acceleration.acceleration.x - accelXOffset;
+  accelerationY = acceleration.acceleration.y - accelYOffset;
+  accelerationZ = acceleration.acceleration.z - accelZOffset;
 }
 
 void updateDht() {
@@ -428,6 +467,7 @@ void chooseMenuItem() {
       heartAnimationEndsAt = now + HEARTS_DURATION_MS;
     }
   }
+  
   currentView = PET_VIEW;
 }
 
@@ -444,6 +484,18 @@ void handleButtons() {
     // Button 2 never changes the pet. It only lets you peek at the values.
     currentView = currentView == STATS_VIEW ? PET_VIEW : STATS_VIEW;
   }
+}
+
+void drawSparkle(int x, int y) {
+  display.drawPixel(x, y - 2, SSD1306_WHITE);
+  display.drawPixel(x - 1, y - 1, SSD1306_WHITE);
+  display.drawPixel(x + 1, y - 1, SSD1306_WHITE);
+  display.drawPixel(x - 2, y, SSD1306_WHITE);
+  display.drawPixel(x, y, SSD1306_WHITE);
+  display.drawPixel(x + 2, y, SSD1306_WHITE);
+  display.drawPixel(x - 1, y + 1, SSD1306_WHITE);
+  display.drawPixel(x + 1, y + 1, SSD1306_WHITE);
+  display.drawPixel(x, y + 2, SSD1306_WHITE);
 }
 
 void drawHeart(int x, int y) {
@@ -511,7 +563,9 @@ void drawPet() {
   petX = constrain(petX, 0, SCREEN_WIDTH - PET_SPRITE_WIDTH);
   display.drawBitmap(petX, petY, PET_SPRITE, PET_SPRITE_WIDTH, PET_SPRITE_HEIGHT,
                      SSD1306_WHITE);
-
+  if (!isNapping() && (now / 250) % 2 == 0) {
+  drawSparkle(petX - 4, petY + 18);
+  }
   if (isNapping()) {
     drawSleepZs(now, petX, petY);
   }
@@ -620,6 +674,7 @@ void setup() {
     mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
     mpu.setGyroRange(MPU6050_RANGE_500_DEG);
     mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+    calibrateMPU();
   } else {
     Serial.println("MPU6050 not found. The menu will not move until it is connected.");
   }
@@ -630,6 +685,27 @@ void setup() {
   }
 
   drawCurrentView();
+}
+
+void updateSerialPlotter(){
+  Serial.print("Acceleration X:");
+  Serial.print(accelerationX);
+  Serial.print(",");
+  Serial.print("Acceleration Y:");
+  Serial.print(accelerationY);
+  Serial.print(",");
+  Serial.print("Acceleration Z:");
+  Serial.print(accelerationZ);
+  Serial.print(",");
+  Serial.print("Acceleration Y:");
+  Serial.print(accelerationY);
+  Serial.print(",");
+  Serial.print("Temperature:");
+  Serial.print(temperatureC);
+  Serial.print(",");
+  Serial.print("Humidity:");
+  Serial.println(humidity);
+}
 }
 
 void loop() {
