@@ -18,4 +18,5 @@ The DHT11 and MPU6050 collect temperature and accelerometer data, respectively; 
 It is supposed to be a snow leopard, but it doesn't look like one :(
 
 Here is what it looks like:
-<img width="640" height="640" alt="Character" src="https://github.com/user-attachments/assets/1fb41036-d2d5-4199-9115-c43df14fd88d" />
+
+<img width="128" height="128" alt="Character" src="https://github.com/user-attachments/assets/1fb41036-d2d5-4199-9115-c43df14fd88d" />
