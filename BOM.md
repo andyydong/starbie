@@ -21,7 +21,7 @@
 | [10k Resistor](https://www.aliexpress.us/item/3256809171494117.html) | Resistor | 1 | $2.64 | $2.64 | [Aliexpress](https://www.aliexpress.us/item/3256809171494117.html) |
 | [PCB](https://www.jlcpcb.com/) | For everything to connect to | 1 | $3.80 | $3.80 | [JCL PCB](https://www.jlcpcb.com/) |
 | **Parts subtotal** | — | — | — | **$22.84** | — |
-| **Tax & shipping** | — | — | — | **$2.00** | — |
-| **Total** | — | — | — | **$24.84** | — |
+| **Tax & shipping** | — | — | — | **$3.25** | — |
+| **Total** | — | — | — | **$26.09** | — |
 
-$5.16 left of the tier's funding.
+$3.91 left of the tier's funding.
