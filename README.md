@@ -40,3 +40,6 @@ Here is an overview of the parts:
 - MX Keycaps
 - 10k Resistor
 - PCB
+
+## Required Libraries
+Please see the .ino file.
