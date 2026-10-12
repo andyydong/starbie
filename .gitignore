@@ -1,2 +1,29 @@
 # Exclude KiCad's internal local history backups
 **/.history/
+
+# --- KiCad Template Gitignore ---
+
+# Temporary and auto-save files
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*-backups/
+*-cache*
+*~
+_autosave-*
+#auto_saved_files#
+*.tmp
+*-save.pro
+*-save.kicad_pcb
+fp-info-cache
+~*.lck
+
+# Netlists and Autorouter files
+*.net
+*.dsn
+*.ses
+
+# Local project preferences and history
+*.kicad_prl
