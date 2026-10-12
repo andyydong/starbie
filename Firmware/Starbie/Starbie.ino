@@ -713,7 +713,8 @@ void loop() {
   updateDht();
   updatePetTimers();
   handleButtons();
-
+  updateSerialPlotter();
+  
   if (currentView == MENU_VIEW) {
     updateMenuBall();
   } else {
