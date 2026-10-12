@@ -18,3 +18,25 @@ The DHT11 and MPU6050 collect temperature and accelerometer data, respectively; 
 It is supposed to be a snow leopard, but it doesn't look like one :(\
 Here is what it looks like:\
 <img width="128" height="128" alt="Character" src="https://github.com/user-attachments/assets/1fb41036-d2d5-4199-9115-c43df14fd88d" />
+
+## PCB
+### PCB Layout
+<img width="1096" height="886" alt="image" src="https://github.com/user-attachments/assets/0cee3f62-1cf9-437d-b608-0a6ff2680c66" />
+
+### PCB Schematic
+<img width="1578" height="924" alt="image" src="https://github.com/user-attachments/assets/3efd1f00-f2c3-46f8-9895-fca53c35b9a0" />
+
+### ASSEMBLY
+Everything should be soldered onto the PCB. Some components, for example, the MPU6050, may come with unsoldered pins; in that case, those need to be soldered on as well. No external wires are needed except a USB cable to flash the ESP32 with the firmware.
+
+## BOM
+See either BOM.md or BOM.csv
+Here is an overview of the parts:
+- XIAO ESP32 C3 \
+- 0.96 OLED \
+- MPU6050 \
+- DHT11 \
+- MX Switches \
+- MX Keycaps \
+- 10k Resistor \
+- PCB \
